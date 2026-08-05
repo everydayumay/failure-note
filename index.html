@@ -6,16 +6,19 @@
 <title>실패노트 — FAILURE NOTE</title>
 <style>
   :root {
-    --bg: #1a1a1f;
-    --bg2: #22222a;
-    --bg3: #2a2a34;
-    --coral: #e8735a;
-    --coral-dim: #c45a44;
-    --coral-glow: rgba(232,115,90,0.15);
-    --text: #e8e6e1;
-    --text-dim: #9a9890;
-    --text-faint: #5a5855;
-    --border: #333340;
+    color-scheme: light;
+    /* 파스텔 팔레트 — 표면은 부드럽게, 텍스트/인터랙션은 대비 확보(WCAG AA) */
+    --bg: #fdf8f5;        /* 웜 크림 배경 */
+    --bg2: #ffffff;       /* 카드 표면 */
+    --bg3: #f2ebe6;       /* 트랙 / 보조 채움 */
+    --coral: #c2553a;     /* 텍스트·버튼 겸용 (흰 글자와 양방향 AA) */
+    --coral-dim: #a8452e; /* 눌림 상태 */
+    --coral-soft: #f7c9bb;/* 파스텔 채움 */
+    --coral-glow: #fdeae3;/* 배지 / 배너 배경 */
+    --text: #3a332f;
+    --text-dim: #6b615a;
+    --text-faint: #857b73;
+    --border: #ece2db;
     --radius: 12px;
     --nav-h: 64px;
   }
@@ -92,7 +95,7 @@
   .big-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
   .big-dot.on { background: var(--coral); }
   .detail-note { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 20px; }
-  .pattern-banner { background: var(--coral-glow); border: 1px solid rgba(232,115,90,0.3); border-radius: var(--radius); padding: 14px; font-size: 13px; color: var(--coral); margin-bottom: 20px; }
+  .pattern-banner { background: var(--coral-glow); border: 1px solid var(--coral-soft); border-radius: var(--radius); padding: 14px; font-size: 13px; color: var(--coral); margin-bottom: 20px; }
   .cond-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .cond-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
   .cond-card .c-val { font-size: 22px; font-weight: 700; color: var(--text); }
@@ -203,9 +206,9 @@
     </div>
     <div class="detail-note" id="d-note">—</div>
     <div class="pattern-banner" id="d-pattern"></div>
-    <div class="section-title" style="margin-bottom:12px">그날 컨디션 <span style="font-size:11px;color:var(--text-faint)">(쉬고 연동 예정)</span></div>
+    <div class="section-title" style="margin-bottom:12px">그날 컨디션 <span style="font-size:11px;color:var(--text-faint)">(쉬고 연동)</span></div>
     <div class="cond-grid" id="d-cond"></div>
-    <div class="cond-note">쉬고 앱 데이터와 연동되면 자동으로 채워져요</div>
+    <div class="cond-note" id="d-cond-note"></div>
   </div>
 
   <!-- REPORT -->
@@ -252,7 +255,7 @@
         <div class="settings-row"><span class="r-label">버전</span><span class="r-val">MVP 0.1</span></div>
         <div class="settings-row"><span class="r-label">데이터 저장</span><span class="r-val">로컬 (이 기기)</span></div>
         <div class="settings-row"><span class="r-label">AI 연동</span><span class="r-val">준비중</span></div>
-        <div class="settings-row"><span class="r-label">쉬고 연동</span><span class="r-val">준비중</span></div>
+        <div class="settings-row"><span class="r-label">쉬고 연동</span><span class="r-val" id="set-shigo">확인 안 함</span></div>
       </div>
     </div>
     <div class="settings-section">
@@ -307,6 +310,91 @@ function genId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
+// ── SHIGO(쉬고) 연동 ──────────────────────────────────
+// 읽기 전용. 쉬고 데이터/코드는 절대 수정하지 않는다.
+// 컨디션은 '부가 정보'이므로 여기서 무슨 일이 나든 기록 저장은 막지 않는다.
+// 데이터 원본은 쉬고가 아니라 '케이던스'(가민 동기화)다.
+// 쉬고도 여기서 읽어간다 — 실패노트도 같은 원본을 직접 읽는다.
+const CADENCE_URL = 'https://running-tracker-iota.vercel.app';
+const SHIGO_TIMEOUT_MS = 4000;
+
+function shigoFetchJson(url) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), SHIGO_TIMEOUT_MS);
+  return fetch(url, { signal: ctrl.signal, cache: 'no-store' })
+    .then(r => (r.ok ? r.json() : null))
+    .catch(() => null)
+    .finally(() => clearTimeout(timer));
+}
+
+/* 쉬고의 calcRecoveryScore를 그대로 옮긴 것.
+   트레이닝 준비도 70% + 수면시간 점수 30%.
+   '수면점수'는 sleepScore 필드가 아니라 sleepHours를 구간으로 환산한 값이다.
+   쉬고 쪽에서 '함부로 바꾸지 말 것'으로 지정된 로직 — 숫자 건드리지 말 것. */
+function shigoRecoveryScore(sleep, fitness) {
+  let sleepHourScore;
+  if (sleep.sleepHours >= 7)      sleepHourScore = 100;
+  else if (sleep.sleepHours >= 6) sleepHourScore = 80;
+  else if (sleep.sleepHours >= 5) sleepHourScore = 55;
+  else if (sleep.sleepHours >= 4) sleepHourScore = 30;
+  else                            sleepHourScore = 10;
+
+  let score = Math.round(fitness.trainingReadiness * 0.7 + sleepHourScore * 0.3);
+  if (sleep.sleepHours < 4.5) score = Math.min(score, 40); // 안전장치
+  return Math.max(0, Math.min(100, score));
+}
+
+/* 뇌 회복 점수 — 깊은수면 + 렘수면 기준. 쉬고 calcBrainScore와 동일. */
+function shigoBrainScore(sleep) {
+  const deep = Math.min(100, (sleep.deepSleep / 1.5) * 60);
+  const rem  = Math.min(100, (sleep.remSleep / 1.5) * 60);
+  return Math.round(deep * 0.5 + rem * 0.5);
+}
+
+async function fetchShigoSnapshot() {
+  try {
+    const [sleep, wellness, fitness] = await Promise.all([
+      shigoFetchJson(`${CADENCE_URL}/sleep.json`),
+      shigoFetchJson(`${CADENCE_URL}/wellness.json`),
+      shigoFetchJson(`${CADENCE_URL}/fitness.json`),
+    ]);
+    if (!Array.isArray(sleep) || !Array.isArray(wellness) || !Array.isArray(fitness)) return null;
+
+    // 세 데이터가 모두 존재하는 가장 최근 날짜를 쓴다 (쉬고와 동일한 방식).
+    const wMap = {}, fMap = {};
+    wellness.forEach(w => { wMap[w.date] = w; });
+    fitness.forEach(f => { fMap[f.date] = f; });
+
+    const s = sleep.find(x => wMap[x.date] && fMap[x.date]); // sleep은 최신순
+    if (!s) return null;
+    const w = wMap[s.date], f = fMap[s.date];
+
+    return {
+      date: s.date,                 // 가민 데이터 기준일 (기록일과 다를 수 있음)
+      fetchedAt: new Date().toISOString(),
+      recoveryScore: shigoRecoveryScore(s, f),
+      brainScore: shigoBrainScore(s),
+      sleepHours: s.sleepHours,
+      stress: w.avgStress,
+      trainingReadiness: f.trainingReadiness,
+    };
+  } catch (e) {
+    console.warn('[shigo] 스냅샷 실패 — 기록은 이미 저장됨', e);
+    return null;
+  }
+}
+
+// 이미 저장된 기록에 컨디션만 나중에 덧붙인다.
+function patchShigoSnapshot(id, snap) {
+  const data = load();
+  const item = data.find(d => d.id === id);
+  if (!item) return;
+  item.shigoSnapshot = snap;
+  save(data);
+  if (currentTab === 'home') renderHome();
+  if (currentDetailId === id) goDetail(id);
+}
+
 // ── NAVIGATION ────────────────────────────────────────
 let currentTab = 'home';
 function switchTab(tab) {
@@ -355,20 +443,19 @@ function goDetail(id) {
   document.getElementById('d-pattern').textContent = `"${item.category}" 유형 — 올해 ${sameType}번째`;
   const snap = item.shigoSnapshot;
   const condEl = document.getElementById('d-cond');
-  const condData = snap ? [
-    {v: snap.recoveryScore, l: '회복점수'},
-    {v: snap.sleepHours + 'h', l: '수면시간'},
-    {v: snap.stress, l: '스트레스'},
-    {v: snap.brainScore, l: '뇌점수'},
-  ] : [
-    {v: '—', l: '회복점수'},
-    {v: '—', l: '수면시간'},
-    {v: '—', l: '스트레스'},
-    {v: '—', l: '뇌점수'},
+  const val = (v, unit) => (v == null ? '—' : v + (unit || ''));
+  const condData = [
+    {v: val(snap && snap.recoveryScore), l: '회복점수'},
+    {v: val(snap && snap.sleepHours, 'h'), l: '수면시간'},
+    {v: val(snap && snap.stress), l: '스트레스'},
+    {v: val(snap && snap.brainScore), l: '뇌점수'},
   ];
   condEl.innerHTML = condData.map(c =>
     `<div class="cond-card"><div class="c-val">${c.v}</div><div class="c-lbl">${c.l}</div></div>`
   ).join('');
+  document.getElementById('d-cond-note').textContent = snap
+    ? `가민 데이터 기준 · ${snap.date}`
+    : '컨디션 데이터를 가져오지 못했어요. 기록 자체는 그대로 저장돼 있어요.';
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-detail').classList.add('active');
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -431,9 +518,8 @@ function updateCharCount() {
   const v = document.getElementById('record-note').value;
   document.getElementById('char-count').textContent = v.length;
 }
-function saveRecord() {
+async function saveRecord() {
   if (!currentCat) return;
-  const data = load();
   const item = {
     id: genId(),
     timestamp: new Date().toISOString(),
@@ -442,9 +528,17 @@ function saveRecord() {
     regretLevel: parseInt(document.getElementById('regret-slider').value),
     shigoSnapshot: null
   };
+
+  // 1) 저장 먼저. 네트워크와 무관하게 기록은 무조건 남는다.
+  const data = load();
   data.push(item);
   save(data);
+  currentCat = null;
   switchTab('home');
+
+  // 2) 컨디션은 부가 정보 — 실패하면 그냥 비워둔다.
+  const snap = await fetchShigoSnapshot();
+  if (snap) patchShigoSnapshot(item.id, snap);
 }
 
 // ── REPORT ────────────────────────────────────────────
@@ -488,6 +582,12 @@ function renderReport() {
 function renderSettings() {
   const data = load();
   document.getElementById('set-total').textContent = data.length + '개';
+  // 최근 기록에 컨디션이 붙었는지로 연동 상태를 판단 (별도 네트워크 호출 없음)
+  const latest = [...data].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp))[0];
+  const el = document.getElementById('set-shigo');
+  if (!latest) el.textContent = '기록 없음';
+  else if (latest.shigoSnapshot) el.textContent = '연결됨';
+  else el.textContent = '데이터 못 가져옴';
 }
 function clearData() {
   if (confirm('전체 기록을 삭제할까요? 되돌릴 수 없어요.')) {
