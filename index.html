@@ -7,18 +7,19 @@
 <style>
   :root {
     color-scheme: light;
-    /* 파스텔 팔레트 — 표면은 부드럽게, 텍스트/인터랙션은 대비 확보(WCAG AA) */
-    --bg: #fdf8f5;        /* 웜 크림 배경 */
+    /* 목업 챕터 1 팔레트 */
+    --bg: #fbf6ee;        /* 웜 크림 배경 */
     --bg2: #ffffff;       /* 카드 표면 */
-    --bg3: #f2ebe6;       /* 트랙 / 보조 채움 */
-    --coral: #c2553a;     /* 텍스트·버튼 겸용 (흰 글자와 양방향 AA) */
-    --coral-dim: #a8452e; /* 눌림 상태 */
-    --coral-soft: #f7c9bb;/* 파스텔 채움 */
-    --coral-glow: #fdeae3;/* 배지 / 배너 배경 */
-    --text: #3a332f;
-    --text-dim: #6b615a;
-    --text-faint: #857b73;
-    --border: #ece2db;
+    --bg3: #f1e8d8;       /* 트랙 / 보조 채움 */
+    --coral: #e8724a;     /* 포인트 컬러 */
+    --coral-dim: #c85d39; /* 눌림 상태 */
+    --coral-soft: #f3b7a0;/* 파스텔 채움 */
+    --coral-glow: #fbe4da;/* 배지 / 배너 배경 */
+    --text: #2e2a24;
+    --text-dim: #8a8378;
+    --text-faint: #a9a294;
+    --border: #ece1cd;
+    --shadow-sm: 0 2px 10px rgba(46, 42, 36, 0.07);
     --radius: 12px;
     --nav-h: 64px;
   }
@@ -46,25 +47,38 @@
   .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
 
   /* HOME */
-  .home-header { margin-bottom: 28px; }
-  .home-header .tagline { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
-  .btn-add { width: 100%; padding: 18px; background: var(--coral); color: #fff; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; letter-spacing: .02em; margin-bottom: 28px; transition: background .15s; }
-  .btn-add:active { background: var(--coral-dim); }
-  .stats-row { display: flex; gap: 12px; margin-bottom: 28px; }
-  .stat-card { flex: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 12px; }
-  .stat-card .val { font-size: 28px; font-weight: 700; color: var(--coral); }
-  .stat-card .lbl { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-  .section-title { font-size: 13px; font-weight: 600; color: var(--text-dim); margin-bottom: 12px; }
+  .home-header { margin-bottom: 24px; }
+  .header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .logo-row { display: flex; align-items: center; gap: 8px; }
+  .logo-icon { font-size: 22px; line-height: 1; }
+  .logo-text { font-size: 21px; font-weight: 700; color: var(--text); }
+  .home-header .tagline { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+  .bell-btn { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-sm); }
+  .bell-btn svg { width: 18px; height: 18px; }
+
+  .btn-add { width: 100%; padding: 20px; background: var(--coral); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: .02em; margin: 20px 0 24px; transition: background .15s, transform .1s; box-shadow: 0 10px 24px rgba(232, 114, 74, 0.32); }
+  .btn-add:active { background: var(--coral-dim); transform: scale(0.99); }
+
+  .stats-row { display: flex; gap: 10px; margin-bottom: 28px; }
+  .stat-card { flex: 1; background: var(--bg2); border-radius: var(--radius); padding: 16px 10px; text-align: center; box-shadow: var(--shadow-sm); }
+  .stat-card .val { font-size: 24px; font-weight: 700; color: var(--coral); }
+  .stat-card .lbl { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .see-all { font-size: 12px; color: var(--text-dim); font-weight: 500; }
+
   .entry-list { display: flex; flex-direction: column; gap: 10px; }
-  .entry-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; cursor: pointer; transition: border-color .15s; }
-  .entry-item:hover { border-color: var(--coral); }
-  .entry-item .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .entry-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg2); border-radius: var(--radius); padding: 14px; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform .1s; }
+  .entry-item:active { transform: scale(0.98); }
+  .entry-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .entry-tag { align-self: flex-start; background: var(--coral); color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
   .cat-badge { background: var(--coral-glow); color: var(--coral); font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 600; }
-  .regret-dots { display: flex; gap: 3px; }
+  .regret-dots { display: flex; gap: 3px; flex-shrink: 0; }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
   .dot.on { background: var(--coral); }
-  .entry-note { font-size: 13px; color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .entry-time { font-size: 11px; color: var(--text-faint); margin-top: 4px; }
+  .entry-note { font-size: 14px; color: var(--text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .entry-time { font-size: 11px; color: var(--text-dim); }
   .empty { text-align: center; color: var(--text-faint); font-size: 14px; padding: 40px 0; line-height: 1.8; }
 
   /* RECORD */
@@ -138,11 +152,20 @@
   <!-- HOME -->
   <div class="screen active" id="screen-home">
     <div class="home-header">
-      <div class="label">Failure Note</div>
-      <h1>실패노트</h1>
-      <div class="tagline">자책 말고 분석. 흑역사도 데이터다.</div>
+      <div class="header-row">
+        <div>
+          <div class="logo-row">
+            <span class="logo-icon">📔</span>
+            <span class="logo-text">실패노트</span>
+          </div>
+          <div class="tagline">자책 말고 분석. 흑역사도 데이터다.</div>
+        </div>
+        <button class="bell-btn" type="button" aria-label="알림">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </button>
+      </div>
     </div>
-    <button class="btn-add" onclick="goRecord()">+ 오늘의 실패 기록하기</button>
+    <button class="btn-add" onclick="goRecord()">＋ 실패 기록하기</button>
     <div class="stats-row">
       <div class="stat-card">
         <div class="val" id="stat-month">0</div>
@@ -157,7 +180,10 @@
         <div class="lbl">평균 후회강도</div>
       </div>
     </div>
-    <div class="section-title">최근 기록</div>
+    <div class="section-header">
+      <div class="section-title">최근 기록</div>
+      <span class="see-all">전체 보기 ›</span>
+    </div>
     <div class="entry-list" id="recent-list">
       <div class="empty">아직 기록 없음.<br>인간이라면 하나쯤 있을 텐데.</div>
     </div>
@@ -607,12 +633,12 @@ function renderHome() {
   }
   listEl.innerHTML = recent.map(item => `
     <div class="entry-item" onclick="goDetail('${item.id}')">
-      <div class="top">
-        <span class="cat-badge">${item.category}</span>
-        <div class="regret-dots">${[1,2,3,4,5].map(i=>`<div class="dot${i<=item.regretLevel?' on':''}"></div>`).join('')}</div>
+      <div class="entry-main">
+        <span class="entry-tag">${item.category}</span>
+        <div class="entry-note">${item.note || item.category}</div>
+        <div class="entry-time">${fmtDate(item.timestamp)}</div>
       </div>
-      <div class="entry-note">${item.note || '(메모 없음)'}</div>
-      <div class="entry-time">${fmtDate(item.timestamp)}</div>
+      <div class="regret-dots">${[1,2,3,4,5].map(i=>`<div class="dot${i<=item.regretLevel?' on':''}"></div>`).join('')}</div>
     </div>
   `).join('');
 }
