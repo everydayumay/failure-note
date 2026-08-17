@@ -1,0 +1,21 @@
+{
+  "key": "project:failure-note",
+  "name": "실패노트",
+  "icon": "📝",
+  "unit": "단계",
+  "steps": [
+    { "text": "MVP 기획·스코프 확정", "done": true, "duration": "1일" },
+    { "text": "MVP 코드 작성 (단일 HTML + localStorage)", "done": true, "duration": "1일" },
+    { "text": "git 저장소 초기화 + GitHub 리모트 연결", "done": true, "duration": "1시간" },
+    { "text": "Vercel 프로젝트 연결 및 최초 배포", "done": true, "duration": "1시간" },
+    { "text": "파스텔톤 디자인 전환", "done": true, "duration": "반나절" },
+    { "text": "컨디션 연동 (케이던스 3파일 fetch + 회복점수 공식 복제)", "done": true, "duration": "반나절" },
+    { "text": "프로덕션 배포 및 저장소 정리", "done": true, "duration": "1시간" },
+    { "text": "실사용 — 앱에 실패 기록 10건 이상 쌓기", "done": false, "duration": "-" },
+    { "text": "피드백 정리", "done": false, "duration": "-" },
+    { "text": "피드백 반영 수정", "done": false, "duration": "-" },
+    { "text": "코드 내부 정리 (파일 분리 아님, SECTION 주석 정리 수준)", "done": false, "duration": "-" },
+    { "text": "AI 패턴 분석 연결 (현재 리포트 화면 준비중 상태)", "done": false, "duration": "-" },
+    { "text": "MVP 검증 종료 판단", "done": false, "duration": "-" }
+  ]
+}

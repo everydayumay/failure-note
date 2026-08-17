@@ -1,0 +1,23 @@
+name: Report progress to Mission Control
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Report progress
+        run: node scripts/report-progress.mjs
+        env:
+          MISSION_CONTROL_TOKEN: ${{ secrets.MISSION_CONTROL_TOKEN }}
