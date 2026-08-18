@@ -84,19 +84,39 @@
   /* RECORD */
   .record-title { margin-bottom: 24px; }
   .record-title p { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
-  .field-label { font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 10px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-  .chip { padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg2); color: var(--text-dim); font-size: 13px; cursor: pointer; transition: all .15s; }
-  .chip.selected { background: var(--coral); border-color: var(--coral); color: #fff; }
-  .slider-wrap { margin-bottom: 24px; }
+  .field-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+
+  .chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .chip-cat { position: relative; display: flex; align-items: center; gap: 8px; padding: 14px 12px; border-radius: 14px; border: 1px solid var(--border); background: var(--bg2); color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; }
+  .chip-cat .emoji { font-size: 18px; line-height: 1; }
+  .chip-cat.selected { background: var(--coral); border-color: var(--coral); color: #fff; }
+  .chip-add { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 14px 12px; border-radius: 14px; border: 1.5px dashed var(--border); background: transparent; color: var(--text-dim); font-size: 14px; font-weight: 600; cursor: pointer; }
+  .chip-add:hover { border-color: var(--coral); color: var(--coral); }
+  .chip-del { margin-left: auto; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,.12); color: inherit; font-size: 12px; line-height: 18px; text-align: center; cursor: pointer; flex-shrink: 0; }
+  .chip-cat.selected .chip-del { background: rgba(255,255,255,.3); }
+
+  .add-cat-panel { display: none; gap: 8px; margin-bottom: 20px; }
+  .add-cat-panel.open { display: flex; }
+  .add-cat-emoji { width: 52px; text-align: center; padding: 12px 4px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg2); font-size: 18px; }
+  .add-cat-name { flex: 1; min-width: 0; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg2); font-size: 14px; color: var(--text); }
+  .add-cat-confirm { padding: 0 16px; border-radius: 12px; border: none; background: var(--coral); color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; }
+
+  .slider-wrap { margin-bottom: 20px; }
+  .slider-numbers { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-faint); padding: 0 3px; margin-bottom: 8px; }
+  .slider-val-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; }
+  .slider-emoji { font-size: 26px; line-height: 1; }
   .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-faint); margin-top: 6px; }
   input[type=range] { width: 100%; accent-color: var(--coral); height: 4px; }
   .slider-val { text-align: center; font-size: 28px; font-weight: 700; color: var(--coral); margin-bottom: 4px; }
+
+  .hint-box { display: flex; align-items: center; gap: 8px; background: var(--coral-glow); color: var(--coral); font-size: 12px; font-weight: 500; padding: 10px 12px; border-radius: 10px; margin-bottom: 12px; }
+
   textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 14px; padding: 14px; resize: none; font-family: inherit; outline: none; transition: border-color .15s; margin-bottom: 24px; }
   textarea:focus { border-color: var(--coral); }
   .char-count { text-align: right; font-size: 11px; color: var(--text-faint); margin-top: -20px; margin-bottom: 24px; }
-  .btn-save { width: 100%; padding: 16px; background: var(--coral); color: #fff; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; }
-  .btn-save:disabled { background: var(--bg3); color: var(--text-faint); cursor: not-allowed; }
+  .btn-save { width: 100%; padding: 18px; background: var(--coral); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 24px rgba(232, 114, 74, 0.28); }
+  .btn-save:disabled { background: var(--bg3); color: var(--text-faint); cursor: not-allowed; box-shadow: none; }
+  .save-hint { text-align: center; font-size: 12px; color: var(--text-faint); margin-top: 12px; }
 
   /* DETAIL */
   .detail-back { background: none; border: none; color: var(--coral); font-size: 14px; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
@@ -195,25 +215,40 @@
       <h1>기록하기</h1>
       <p>판단 없음. 분석만.</p>
     </div>
-    <div class="field-label">유형</div>
-    <div class="chips" id="cat-chips">
-      <div class="chip" onclick="selectCat(this,'야식')">야식</div>
-      <div class="chip" onclick="selectCat(this,'충동구매')">충동구매</div>
-      <div class="chip" onclick="selectCat(this,'미루기')">미루기</div>
-      <div class="chip" onclick="selectCat(this,'말실수')">말실수</div>
-      <div class="chip" onclick="selectCat(this,'운동포기')">운동포기</div>
-      <div class="chip" onclick="selectCat(this,'기타')">기타</div>
+
+    <div class="field-label">1. 어떤 실수를 했나요?</div>
+    <div class="chip-grid" id="cat-chips">
+      <div class="chip-cat" onclick="selectCat(this,'야식')"><span class="emoji">🍔</span><span>야식</span></div>
+      <div class="chip-cat" onclick="selectCat(this,'충동구매')"><span class="emoji">🛍️</span><span>충동구매</span></div>
+      <div class="chip-cat" onclick="selectCat(this,'미루기')"><span class="emoji">⏰</span><span>미루기</span></div>
+      <div class="chip-cat" onclick="selectCat(this,'말실수')"><span class="emoji">💬</span><span>말실수</span></div>
+      <div class="chip-cat" onclick="selectCat(this,'운동포기')"><span class="emoji">🏃</span><span>운동포기</span></div>
+      <div class="chip-cat" onclick="selectCat(this,'기타')"><span class="emoji">✨</span><span>기타</span></div>
+      <button type="button" class="chip-add" id="chip-add-btn" onclick="toggleAddCatPanel()">＋ 직접 추가</button>
     </div>
-    <div class="field-label">후회강도</div>
+    <div class="add-cat-panel" id="add-cat-panel">
+      <input type="text" id="new-cat-emoji" class="add-cat-emoji" maxlength="4" placeholder="😀">
+      <input type="text" id="new-cat-name" class="add-cat-name" maxlength="10" placeholder="카테고리 이름">
+      <button type="button" class="add-cat-confirm" onclick="addCustomCategory()">추가</button>
+    </div>
+
+    <div class="field-label">2. 후회 강도는?</div>
     <div class="slider-wrap">
-      <div class="slider-val" id="slider-display">3</div>
+      <div class="slider-numbers"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+      <div class="slider-val-row">
+        <span class="slider-val" id="slider-display">3</span>
+        <span class="slider-emoji" id="slider-emoji">😅</span>
+      </div>
       <input type="range" min="1" max="5" value="3" id="regret-slider" oninput="updateSlider(this.value)">
       <div class="slider-labels"><span>별로</span><span>그냥</span><span>중간</span><span>꽤</span><span>최악</span></div>
     </div>
-    <div class="field-label">메모 <span style="color:var(--text-faint);font-weight:400">(선택)</span></div>
+
+    <div class="field-label">3. 간단한 메모 <span style="color:var(--text-faint);font-weight:400">(선택)</span></div>
+    <div class="hint-box">💡 기록하면 변화가 시작돼요!</div>
     <textarea id="record-note" rows="4" maxlength="200" placeholder="무슨 일이 있었나요?" oninput="updateCharCount()"></textarea>
     <div class="char-count"><span id="char-count">0</span>/200</div>
-    <button class="btn-save" id="btn-save" onclick="saveRecord()" disabled>저장 — 흑역사 +1</button>
+    <button class="btn-save" id="btn-save" onclick="saveRecord()" disabled>저장하기</button>
+    <div class="save-hint">오늘도 수고했어, 나에게 토닥토닥 🧡</div>
   </div>
 
   <!-- DETAIL -->
@@ -644,23 +679,92 @@ function renderHome() {
 }
 
 // ── RECORD ────────────────────────────────────────────
+const BASE_CATS = ['야식', '충동구매', '미루기', '말실수', '운동포기', '기타'];
+const CUSTOM_CATS_KEY = 'fn_custom_cats';
+const REGRET_EMOJI = { 1: '😌', 2: '🙂', 3: '😅', 4: '😣', 5: '🤯' };
+
+function loadCustomCats() {
+  try { return JSON.parse(localStorage.getItem(CUSTOM_CATS_KEY)) || []; }
+  catch { return []; }
+}
+function saveCustomCats(cats) {
+  localStorage.setItem(CUSTOM_CATS_KEY, JSON.stringify(cats));
+}
+
+// 기본 6개 칩은 HTML에 고정돼 있고, 커스텀 카테고리만 "＋ 직접 추가" 버튼 앞에 동적으로 끼워 넣는다.
+function renderCategoryChips() {
+  const addBtn = document.getElementById('chip-add-btn');
+  document.querySelectorAll('.chip-cat.custom').forEach(el => el.remove());
+  loadCustomCats().forEach(cat => {
+    const chip = document.createElement('div');
+    chip.className = 'chip-cat custom';
+    if (currentCat === cat.name) chip.classList.add('selected');
+    chip.addEventListener('click', () => selectCat(chip, cat.name));
+    const emojiSpan = document.createElement('span');
+    emojiSpan.className = 'emoji';
+    emojiSpan.textContent = cat.emoji;
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = cat.name;
+    const delSpan = document.createElement('span');
+    delSpan.className = 'chip-del';
+    delSpan.textContent = '×';
+    delSpan.addEventListener('click', (e) => { e.stopPropagation(); deleteCustomCategory(cat.name); });
+    chip.append(emojiSpan, nameSpan, delSpan);
+    addBtn.insertAdjacentElement('beforebegin', chip);
+  });
+}
+
+function toggleAddCatPanel() {
+  document.getElementById('add-cat-panel').classList.toggle('open');
+}
+
+function addCustomCategory() {
+  const emojiInput = document.getElementById('new-cat-emoji');
+  const nameInput = document.getElementById('new-cat-name');
+  const emoji = emojiInput.value.trim() || '🏷️';
+  const name = nameInput.value.trim();
+  if (!name) { alert('카테고리 이름을 입력해주세요.'); return; }
+  const existingNames = [...BASE_CATS, ...loadCustomCats().map(c => c.name)];
+  if (existingNames.includes(name)) { alert('이미 있는 카테고리예요.'); return; }
+  const cats = loadCustomCats();
+  cats.push({ emoji, name });
+  saveCustomCats(cats);
+  emojiInput.value = '';
+  nameInput.value = '';
+  document.getElementById('add-cat-panel').classList.remove('open');
+  renderCategoryChips();
+}
+
+function deleteCustomCategory(name) {
+  if (!confirm(`"${name}" 카테고리를 삭제할까요?`)) return;
+  saveCustomCats(loadCustomCats().filter(c => c.name !== name));
+  if (currentCat === name) {
+    currentCat = null;
+    document.getElementById('btn-save').disabled = true;
+  }
+  renderCategoryChips();
+}
+
 function resetRecord() {
   currentCat = null;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  renderCategoryChips();
+  document.querySelectorAll('.chip-cat').forEach(c => c.classList.remove('selected'));
+  document.getElementById('add-cat-panel').classList.remove('open');
   document.getElementById('regret-slider').value = 3;
-  document.getElementById('slider-display').textContent = '3';
+  updateSlider(3);
   document.getElementById('record-note').value = '';
   document.getElementById('char-count').textContent = '0';
   document.getElementById('btn-save').disabled = true;
 }
 function selectCat(el, cat) {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.chip-cat').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   currentCat = cat;
   document.getElementById('btn-save').disabled = false;
 }
 function updateSlider(val) {
   document.getElementById('slider-display').textContent = val;
+  document.getElementById('slider-emoji').textContent = REGRET_EMOJI[val] || '';
 }
 function updateCharCount() {
   const v = document.getElementById('record-note').value;
@@ -710,7 +814,8 @@ function renderReport() {
     thisMonth.forEach(d => { catCount[d.category] = (catCount[d.category]||0)+1; });
     const top = Object.entries(catCount).sort((a,b)=>b[1]-a[1])[0];
     document.getElementById('r-top').textContent = top ? `${top[0]} (${top[1]}건)` : '—';
-    const cats = ['야식','충동구매','미루기','말실수','운동포기','기타'];
+    // 기본 6개 + 이번달에 실제로 쓰인 커스텀 카테고리까지 포함해서 분포를 보여준다.
+    const cats = [...BASE_CATS, ...Object.keys(catCount).filter(c => !BASE_CATS.includes(c))];
     const max = Math.max(...cats.map(c=>catCount[c]||0), 1);
     document.getElementById('bar-chart').innerHTML = cats.map(c => {
       const cnt = catCount[c]||0;
