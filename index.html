@@ -120,39 +120,59 @@
 
   /* DETAIL */
   .detail-back { background: none; border: none; color: var(--coral); font-size: 14px; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
-  .detail-header { margin-bottom: 20px; }
-  .detail-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
-  .detail-time { font-size: 12px; color: var(--text-faint); }
-  .detail-regret { display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
-  .detail-regret .lbl { font-size: 13px; color: var(--text-dim); }
-  .big-dots { display: flex; gap: 5px; }
-  .big-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
-  .big-dot.on { background: var(--coral); }
-  .detail-note { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 20px; }
-  .pattern-banner { background: var(--coral-glow); border: 1px solid var(--coral-soft); border-radius: var(--radius); padding: 14px; font-size: 13px; color: var(--coral); margin-bottom: 20px; }
-  .cond-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .cond-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-  .cond-card .c-val { font-size: 22px; font-weight: 700; color: var(--text); }
-  .cond-card .c-lbl { font-size: 11px; color: var(--text-faint); margin-top: 2px; }
+  .detail-hero { text-align: center; margin-bottom: 20px; }
+  .detail-emoji { font-size: 46px; line-height: 1; margin-bottom: 8px; }
+  .detail-cat-name { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .detail-regret-badge { display: inline-block; background: var(--coral-glow); color: var(--coral); font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+  .detail-note { background: var(--bg2); border-radius: var(--radius); padding: 16px; font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 10px; box-shadow: var(--shadow-sm); font-style: italic; }
+  .detail-time { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
+  .repeat-card { background: var(--bg2); border-radius: var(--radius); padding: 16px; margin-bottom: 24px; box-shadow: var(--shadow-sm); text-align: center; }
+  .repeat-main { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .repeat-compare { font-size: 13px; color: var(--text-dim); }
+  .cond-sub { font-size: 11px; color: var(--text-faint); font-weight: 400; }
+  .cond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .cond-card { background: var(--bg2); border-radius: 10px; padding: 14px 8px; text-align: center; box-shadow: var(--shadow-sm); }
+  .cond-card .c-val { font-size: 20px; font-weight: 700; color: var(--text); }
+  .cond-card .c-val.cond-good { color: #2f9e5b; }
+  .cond-card .c-val.cond-warn { color: #d98a2b; }
+  .cond-card .c-val.cond-bad { color: #d1453b; }
+  .cond-card .c-lbl { font-size: 11px; color: var(--text-faint); margin-top: 4px; }
   .cond-note { font-size: 11px; color: var(--text-faint); margin-top: 12px; text-align: center; }
+  .btn-delete { width: 100%; padding: 14px; background: none; border: 1.5px solid var(--coral); color: var(--coral); border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 24px; }
+  .btn-delete:active { background: var(--coral-glow); }
 
   /* REPORT */
-  .report-header { margin-bottom: 24px; }
+  .report-header { margin-bottom: 20px; }
   .report-header .sub { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
-  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-  .summary-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-  .summary-card.full { grid-column: 1 / -1; }
+  .month-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 10px; }
+  .month-nav-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg2); color: var(--text-dim); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .month-nav-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .month-nav-label { font-size: 14px; font-weight: 700; color: var(--text); min-width: 92px; text-align: center; }
+
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .summary-card { background: var(--bg2); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); }
   .summary-card .s-val { font-size: 26px; font-weight: 700; color: var(--coral); }
   .summary-card .s-lbl { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .top-type-card { background: var(--coral-glow); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 24px; }
+  .top-type-name { font-size: 21px; font-weight: 800; color: var(--coral); }
+  .top-type-sub { font-size: 12px; color: var(--coral); opacity: .85; margin-top: 4px; }
+
   .ai-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
   .ai-box .ai-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; }
   .ai-box .ai-text { font-size: 14px; line-height: 1.75; color: var(--text-dim); }
+  .btn-ai-generate { width: 100%; margin-top: 14px; padding: 12px; border-radius: 12px; border: 1px solid var(--coral); background: var(--bg2); color: var(--coral); font-weight: 700; font-size: 13px; cursor: pointer; }
+  .btn-ai-generate:active { background: var(--coral-glow); }
+
   .bar-chart { display: flex; flex-direction: column; gap: 10px; }
   .bar-row { display: flex; align-items: center; gap: 10px; }
-  .bar-name { font-size: 12px; color: var(--text-dim); width: 60px; flex-shrink: 0; }
+  .bar-name { font-size: 12px; color: var(--text-dim); width: 60px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bar-track { flex: 1; background: var(--bg3); border-radius: 4px; height: 8px; }
   .bar-fill { height: 100%; border-radius: 4px; background: var(--coral); transition: width .4s; }
   .bar-count { font-size: 12px; color: var(--text-faint); width: 20px; text-align: right; }
+
+  /* TOAST */
+  .toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; font-size: 13px; padding: 10px 18px; border-radius: 20px; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 999; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* SETTINGS */
   .settings-header { margin-bottom: 24px; }
@@ -254,22 +274,27 @@
   <!-- DETAIL -->
   <div class="screen" id="screen-detail">
     <button class="detail-back" onclick="goHome()">← 목록으로</button>
-    <div class="detail-header">
-      <div class="detail-meta">
-        <span class="cat-badge" id="d-cat"></span>
-        <span class="detail-time" id="d-time"></span>
-      </div>
-    </div>
-    <div class="detail-regret">
-      <span class="lbl">후회강도</span>
-      <div class="big-dots" id="d-dots"></div>
-      <span id="d-level-text" style="font-size:13px;color:var(--text-dim)"></span>
+    <div class="detail-hero">
+      <div class="detail-emoji" id="d-emoji">🏷️</div>
+      <div class="detail-cat-name" id="d-cat-name"></div>
+      <span class="detail-regret-badge" id="d-regret-badge"></span>
     </div>
     <div class="detail-note" id="d-note">—</div>
-    <div class="pattern-banner" id="d-pattern"></div>
-    <div class="section-title" style="margin-bottom:12px">그날 컨디션 <span style="font-size:11px;color:var(--text-faint)">(쉬고 연동)</span></div>
+    <div class="detail-time" id="d-time"></div>
+
+    <div class="repeat-card">
+      <div class="repeat-main" id="d-repeat-main"></div>
+      <div class="repeat-compare" id="d-repeat-compare"></div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title">그날의 컨디션 <span class="cond-sub">(쉬고 연동)</span></div>
+      <span class="see-all">자세히 보기 ›</span>
+    </div>
     <div class="cond-grid" id="d-cond"></div>
     <div class="cond-note" id="d-cond-note"></div>
+
+    <button class="btn-delete" onclick="deleteRecord()">이 기록 삭제</button>
   </div>
 
   <!-- REPORT -->
@@ -278,6 +303,11 @@
       <div class="label">Monthly Report</div>
       <h1>이번달 리포트</h1>
       <div class="sub" id="report-month-label"></div>
+      <div class="month-nav">
+        <button type="button" class="month-nav-btn" onclick="prevReportMonth()">‹</button>
+        <span class="month-nav-label" id="report-month-nav-label"></span>
+        <button type="button" class="month-nav-btn" id="report-next-btn" onclick="nextReportMonth()">›</button>
+      </div>
     </div>
     <div class="summary-grid">
       <div class="summary-card">
@@ -288,10 +318,10 @@
         <div class="s-val" id="r-avg">—</div>
         <div class="s-lbl">평균 후회강도</div>
       </div>
-      <div class="summary-card full">
-        <div class="s-val" id="r-top">—</div>
-        <div class="s-lbl">가장 많은 유형</div>
-      </div>
+    </div>
+    <div class="top-type-card">
+      <div class="top-type-name" id="r-top">—</div>
+      <div class="top-type-sub">가장 많은 유형</div>
     </div>
     <div class="section-title" style="margin-bottom:12px">유형별 분포</div>
     <div class="card" style="margin-bottom:20px">
@@ -300,6 +330,7 @@
     <div class="ai-box">
       <div class="ai-tag">AI 패턴 분석 <span style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:9px">준비중</span></div>
       <div class="ai-text" id="ai-text">데이터가 쌓이면 Claude가 당신의 실패 패턴을 분석해드릴 예정이에요. 지금은 그냥 기록만 해도 충분해요.</div>
+      <button type="button" class="btn-ai-generate" onclick="showAiToast()">AI 리포트 생성하기 ✨</button>
     </div>
   </div>
 
@@ -351,6 +382,8 @@
       설정
     </button>
   </nav>
+
+  <div class="toast" id="toast"></div>
 
 </div>
 
@@ -601,47 +634,92 @@ function goRecord() {
 function goHome() {
   switchTab('home');
 }
+const BASE_CAT_EMOJI = { '야식': '🍔', '충동구매': '🛍️', '미루기': '⏰', '말실수': '💬', '운동포기': '🏃', '기타': '✨' };
+function getCategoryEmoji(name) {
+  if (BASE_CAT_EMOJI[name]) return BASE_CAT_EMOJI[name];
+  const custom = loadCustomCats().find(c => c.name === name);
+  return custom ? custom.emoji : '🏷️';
+}
+
+// 회복점수/뇌점수(0~100)와 수면시간(h) 값을 좋음/보통/나쁨 색상 등급으로 나눈다. 표시용 색상 분류일 뿐,
+// shigoRecoveryScore 등 실제 점수 계산식과는 무관하다 — 계산 로직은 건드리지 않았다.
+function condLevelClass(metric, value) {
+  if (value == null) return '';
+  if (metric === 'sleep') {
+    if (value >= 7) return 'cond-good';
+    if (value >= 5) return 'cond-warn';
+    return 'cond-bad';
+  }
+  if (value >= 70) return 'cond-good';
+  if (value >= 40) return 'cond-warn';
+  return 'cond-bad';
+}
+
 function goDetail(id) {
   currentDetailId = id;
   const data = load();
   const item = data.find(d => d.id === id);
   if (!item) return;
-  document.getElementById('d-cat').textContent = item.category;
+
+  document.getElementById('d-emoji').textContent = getCategoryEmoji(item.category);
+  document.getElementById('d-cat-name').textContent = item.category;
+  const levels = ['', '별로', '그냥', '중간', '꽤 후회', '최악'];
+  document.getElementById('d-regret-badge').textContent = levels[item.regretLevel] || '—';
+  document.getElementById('d-note').textContent = item.note ? `“${item.note}”` : '메모 없음';
   document.getElementById('d-time').textContent = fmtDate(item.timestamp);
-  const dotsEl = document.getElementById('d-dots');
-  dotsEl.innerHTML = '';
-  for (let i = 1; i <= 5; i++) {
-    const d = document.createElement('div');
-    d.className = 'big-dot' + (i <= item.regretLevel ? ' on' : '');
-    dotsEl.appendChild(d);
+
+  // 반복 횟수 — 올해 같은 유형 기록 수 + 작년 대비 증감
+  const itemYear = new Date(item.timestamp).getFullYear();
+  const thisYearCount = data.filter(d => d.category === item.category && new Date(d.timestamp).getFullYear() === itemYear).length;
+  document.getElementById('d-repeat-main').textContent = `🎉 이 유형 올해 ${thisYearCount}번째 기록이에요!`;
+  const lastYear = itemYear - 1;
+  const hasLastYearData = data.some(d => new Date(d.timestamp).getFullYear() === lastYear);
+  const compareEl = document.getElementById('d-repeat-compare');
+  if (!hasLastYearData) {
+    compareEl.textContent = '작년 데이터 없음';
+  } else {
+    const lastYearCount = data.filter(d => d.category === item.category && new Date(d.timestamp).getFullYear() === lastYear).length;
+    const diff = thisYearCount - lastYearCount;
+    if (diff > 0) compareEl.textContent = `작년 대비 +${diff}회 증가 🔥`;
+    else if (diff < 0) compareEl.textContent = `작년 대비 ${diff}회 감소 👏`;
+    else compareEl.textContent = '작년과 동일해요';
   }
-  const levels = ['','별로','그냥','중간','꽤 후회','최악'];
-  document.getElementById('d-level-text').textContent = levels[item.regretLevel];
-  document.getElementById('d-note').textContent = item.note || '메모 없음';
-  const sameType = data.filter(d => {
-    const y = new Date(d.timestamp).getFullYear();
-    const cy = new Date().getFullYear();
-    return d.category === item.category && y === cy;
-  }).length;
-  document.getElementById('d-pattern').textContent = `"${item.category}" 유형 — 올해 ${sameType}번째`;
+
+  // 컨디션 3칸 (회복점수/수면시간/뇌점수) — 값 좋고 나쁨에 따라 색만 다르게, 계산식은 그대로.
   const snap = item.shigoSnapshot;
   const condEl = document.getElementById('d-cond');
-  const val = (v, unit) => (v == null ? '—' : v + (unit || ''));
-  const condData = [
-    {v: val(snap && snap.recoveryScore), l: '회복점수'},
-    {v: val(snap && snap.sleepHours, 'h'), l: '수면시간'},
-    {v: val(snap && snap.stress), l: '스트레스'},
-    {v: val(snap && snap.brainScore), l: '뇌점수'},
-  ];
-  condEl.innerHTML = condData.map(c =>
-    `<div class="cond-card"><div class="c-val">${c.v}</div><div class="c-lbl">${c.l}</div></div>`
-  ).join('');
-  document.getElementById('d-cond-note').textContent = snap
-    ? `가민 데이터 기준 · ${snap.date}`
-    : '컨디션 데이터를 가져오지 못했어요. 기록 자체는 그대로 저장돼 있어요.';
+  if (snap) {
+    const condData = [
+      { v: snap.recoveryScore, unit: '', l: '회복점수', metric: 'score' },
+      { v: snap.sleepHours, unit: 'h', l: '수면시간', metric: 'sleep' },
+      { v: snap.brainScore, unit: '', l: '뇌점수', metric: 'score' },
+    ];
+    condEl.innerHTML = condData.map(c =>
+      `<div class="cond-card"><div class="c-val ${condLevelClass(c.metric, c.v)}">${c.v}${c.unit}</div><div class="c-lbl">${c.l}</div></div>`
+    ).join('');
+    document.getElementById('d-cond-note').textContent = `가민 데이터 기준 · ${snap.date}`;
+  } else {
+    condEl.innerHTML = '';
+    document.getElementById('d-cond-note').textContent = '쉬고 연동 데이터 없음';
+  }
+
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-detail').classList.add('active');
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+}
+
+function deleteRecord() {
+  if (!currentDetailId) return;
+  if (!confirm('이 기록을 삭제할까요? 되돌릴 수 없어요.')) return;
+  const idToDelete = currentDetailId;
+  const data = load().filter(d => d.id !== idToDelete);
+  save(data);
+  if (firestoreReady) {
+    recordsRef().doc(idToDelete).delete()
+      .catch(e => console.warn('[firestore] 삭제 반영 실패 — 로컬엔 이미 삭제됨', e));
+  }
+  currentDetailId = null;
+  goHome();
 }
 
 // ── HOME ──────────────────────────────────────────────
@@ -797,14 +875,37 @@ async function saveRecord() {
 }
 
 // ── REPORT ────────────────────────────────────────────
+const DEFAULT_AI_TEXT = '데이터가 쌓이면 Claude가 당신의 실패 패턴을 분석해드릴 예정이에요. 지금은 그냥 기록만 해도 충분해요.';
+let reportMonthOffset = 0; // 0 = 이번 달, -1 = 지난 달 ...
+function reportTargetDate() {
+  const d = new Date();
+  d.setDate(1); // 월말 overflow 방지
+  d.setMonth(d.getMonth() + reportMonthOffset);
+  return d;
+}
+function prevReportMonth() {
+  reportMonthOffset -= 1;
+  renderReport();
+}
+function nextReportMonth() {
+  if (reportMonthOffset >= 0) return; // 이번 달보다 미래로는 못 감
+  reportMonthOffset += 1;
+  renderReport();
+}
+
 function renderReport() {
   const data = load();
-  const now = new Date();
-  const label = `${now.getFullYear()}년 ${now.getMonth()+1}월`;
+  const target = reportTargetDate();
+  const targetYear = target.getFullYear();
+  const targetMonth = target.getMonth();
+  const label = `${targetYear}년 ${targetMonth + 1}월`;
   document.getElementById('report-month-label').textContent = label;
+  document.getElementById('report-month-nav-label').textContent = label;
+  document.getElementById('report-next-btn').disabled = reportMonthOffset >= 0;
+
   const thisMonth = data.filter(d => {
     const dt = new Date(d.timestamp);
-    return dt.getFullYear() === now.getFullYear() && dt.getMonth() === now.getMonth();
+    return dt.getFullYear() === targetYear && dt.getMonth() === targetMonth;
   });
   document.getElementById('r-total').textContent = thisMonth.length;
   if (thisMonth.length) {
@@ -814,7 +915,7 @@ function renderReport() {
     thisMonth.forEach(d => { catCount[d.category] = (catCount[d.category]||0)+1; });
     const top = Object.entries(catCount).sort((a,b)=>b[1]-a[1])[0];
     document.getElementById('r-top').textContent = top ? `${top[0]} (${top[1]}건)` : '—';
-    // 기본 6개 + 이번달에 실제로 쓰인 커스텀 카테고리까지 포함해서 분포를 보여준다.
+    // 기본 6개 + 이 달에 실제로 쓰인 커스텀 카테고리까지 포함해서 분포를 보여준다.
     const cats = [...BASE_CATS, ...Object.keys(catCount).filter(c => !BASE_CATS.includes(c))];
     const max = Math.max(...cats.map(c=>catCount[c]||0), 1);
     document.getElementById('bar-chart').innerHTML = cats.map(c => {
@@ -826,12 +927,27 @@ function renderReport() {
       const topCat = top[0];
       document.getElementById('ai-text').textContent =
         `이번 달 "${topCat}" 패턴이 두드러졌어요. 특정 시간대나 상황에서 반복되는 경향이 있는지 확인해보세요. 기록이 더 쌓이면 Claude가 구체적인 원인을 분석해드려요.`;
+    } else {
+      document.getElementById('ai-text').textContent = DEFAULT_AI_TEXT;
     }
   } else {
     document.getElementById('r-avg').textContent = '—';
     document.getElementById('r-top').textContent = '—';
-    document.getElementById('bar-chart').innerHTML = '<div style="color:var(--text-faint);font-size:13px;text-align:center;padding:12px 0">이번달 기록 없음</div>';
+    document.getElementById('bar-chart').innerHTML = '<div style="color:var(--text-faint);font-size:13px;text-align:center;padding:12px 0">이 달 기록 없음</div>';
+    document.getElementById('ai-text').textContent = DEFAULT_AI_TEXT;
   }
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+function showAiToast() {
+  showToast('AI 연동 준비중이에요 🌱');
 }
 
 // ── SETTINGS ─────────────────────────────────────────
