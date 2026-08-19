@@ -964,10 +964,24 @@ function renderSettings() {
   else if (latest.shigoSnapshot) el.textContent = '연결됨';
   else el.textContent = '데이터 못 가져옴';
 }
+// Firestore의 users/kei/records 컬렉션을 통째로 비운다.
+// 이걸 안 해주면 로컬만 지워진 상태로 새로고침했을 때 onSnapshot 리스너가
+// 클라우드에 남아있던 기록을 다시 localStorage로 미러링해서 "삭제했는데 살아나는" 버그가 난다.
+async function clearAllFirestoreRecords() {
+  if (!firestoreReady) return;
+  const snap = await recordsRef().get();
+  if (snap.empty) return;
+  const batch = db.batch();
+  snap.docs.forEach(doc => batch.delete(doc.ref));
+  await batch.commit();
+}
+
 function clearData() {
   if (confirm('전체 기록을 삭제할까요? 되돌릴 수 없어요.')) {
     localStorage.removeItem(STORAGE_KEY);
     renderSettings();
+    // 클라우드 삭제는 실패해도 UI/로컬 상태에는 영향 없게 fire-and-forget으로 처리.
+    clearAllFirestoreRecords().catch(e => console.warn('[firestore] 전체 삭제 반영 실패 — 로컬은 이미 비워짐', e));
     alert('삭제됐어요. 새로운 흑역사를 기대할게요.');
   }
 }
